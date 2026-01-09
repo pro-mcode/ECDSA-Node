@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const server = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: "https://ecdsa-node-tabb.onrender.com",
 });
 
 export default server;

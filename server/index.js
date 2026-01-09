@@ -10,7 +10,7 @@ const {
 } = require("ethereum-cryptography/utils");
 const { getAddress, computeMerkleRoot } = require("./scripts/utils.js");
 const app = express();
-const port = 3042;
+const port = process.env.PORT || 3042;
 
 app.use(cors());
 app.use(express.json());
