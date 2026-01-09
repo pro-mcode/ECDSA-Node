@@ -61,10 +61,10 @@ This project is an example of using a client and server to facilitate transfers 
 
 1. Clone the repository:
 
-````bash
+```bash
 git clone <repository-url>
 cd ecdsa-node-main
-
+```
 
 2. Install dependencies:
 
@@ -72,6 +72,7 @@ cd ecdsa-node-main
 npm install
 cd client
 npm install
+```
 
 ### Usage
 
@@ -79,12 +80,14 @@ npm install
 
 ```bash
 npm run server
+```
 
 #### Start the client
 
 ```bash
 cd client
 npm start
+```
 
 - Open http://localhost:3000 in your browser
 - Enter a private key in the wallet to see your address and balance
@@ -102,14 +105,15 @@ Transaction Object (POST /send)
 
 ```json
 {
-"transaction": {
-"recipient": "52f481a385680b621b8c58bc846f1f6e1fb36099",
-"amount": 100,
-"nonce": 0
-},
-"signature": "<signature-hex>",
-"recoveryBit": 0
+  "transaction": {
+    "recipient": "52f481a385680b621b8c58bc846f1f6e1fb36099",
+    "amount": 100,
+    "nonce": 0
+  },
+  "signature": "<signature-hex>",
+  "recoveryBit": 0
 }
+```
 
 ### Technical Details
 
@@ -152,4 +156,6 @@ Transaction Object (POST /send)
 - Support multi-sig wallets
 - Enhance client UI with real-time transaction updates
 
-````
+```
+
+```
