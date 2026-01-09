@@ -155,7 +155,3 @@ Transaction Object (POST /send)
 - Implement block validation and tamper detection
 - Support multi-sig wallets
 - Enhance client UI with real-time transaction updates
-
-```
-
-```
