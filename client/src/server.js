@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const server = axios.create({
-  baseURL: "http://localhost:3042",
+  baseURL: process.env.REACT_APP_SERVER_URL,
 });
 
 export default server;
