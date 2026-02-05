@@ -24,7 +24,8 @@ privateKeys.forEach((k, i) => {
 
 // Utility: normalize addresses
 function normalizeAddress(address) {
-  return address.toLowerCase();
+  if (!address) return "";
+  return address.toLowerCase().replace(/^0x/, "");
 }
 
 // Nonce per address
@@ -40,7 +41,7 @@ app.get("/balance/:address", (req, res) => {
 });
 
 app.get("/nonce/:address", (req, res) => {
-  const address = req.params.address.toLowerCase();
+  const address = normalizeAddress(req.params.address);
   nonces[address] ||= 0; // initialize if missing
   res.send({ nonce: nonces[address] });
 });
@@ -54,6 +55,7 @@ app.post("/send", (req, res) => {
   const { transaction, signature, recoveryBit } = req.body;
 
   const { recipient, amount, nonce } = transaction;
+  const normalizedRecipient = normalizeAddress(recipient);
 
   // Recreate message hash from transaction object
   const messageHash = keccak256(utf8ToBytes(JSON.stringify(transaction)));
@@ -66,11 +68,11 @@ app.post("/send", (req, res) => {
   );
 
   // Derive sender address
-  const sender = getAddress(publicKey);
+  const sender = normalizeAddress(getAddress(publicKey));
 
   // Initialize balances & nonce
   balances[sender] ||= 0;
-  balances[recipient] ||= 0;
+  balances[normalizedRecipient] ||= 0;
   nonces[sender] ||= 0;
 
   // Check signature
@@ -91,7 +93,7 @@ app.post("/send", (req, res) => {
 
   // Apply transaction
   balances[sender] -= amount;
-  balances[recipient] += amount;
+  balances[normalizedRecipient] += amount;
   nonces[sender] += 1;
 
   // Add to transaction pool
