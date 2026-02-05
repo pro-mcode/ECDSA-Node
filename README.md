@@ -14,7 +14,7 @@
 
 ### Project Overview
 
-This project is a simple ECDSA-based wallet and transaction ledger built with Node.js and React. It demonstrates the principles of:
+This project is an educational, full‑stack demo of an ECDSA‑based wallet and transaction ledger. The React client derives public keys and Ethereum‑style addresses from private keys, displays balances, and signs transactions. The Node/Express server verifies signatures and nonces to prevent replay attacks, updates balances, and maintains an in‑memory transaction pool with a Merkle root for integrity. It’s intentionally centralized to focus on cryptography and transaction validation concepts rather than distributed consensus. It demonstrates the principles of:
 
 - Generating private/public key pairs using secp256k1
 - Deriving Ethereum-style addresses from public keys
@@ -89,7 +89,7 @@ cd client
 npm start
 ```
 
-- Open http://localhost:3000 in your browser
+- Open <http://localhost:3000> in your browser
 - Enter a private key in the wallet to see your address and balance
 - Use the Transfer form to send funds to a recipient address
 
