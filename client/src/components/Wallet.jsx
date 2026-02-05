@@ -113,7 +113,13 @@ function Wallet({
           <p className="metric__value">{balance}</p>
         </div>
         <div className="metric">
-          <p className="metric__label">Address</p>
+          <p className="metric__label metric__label--with-tooltip">
+            Address
+            <span className="tooltip">
+              Checksum format (EIP-55) with a 0x prefix for ERC-20 compatible
+              addresses.
+            </span>
+          </p>
           <div className="metric__row">
             <p className="metric__value metric__value--mono">
               {address || "—"}

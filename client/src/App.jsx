@@ -66,6 +66,11 @@ function App() {
     saveHistory(address, txHistory);
   }, [address, txHistory]);
 
+  // const clearHistory = () => {
+  //   setTxHistory([]);
+  //   saveHistory(address, []);
+  // };
+
   return (
     <div className="app-shell">
       <BgOrbs />
@@ -97,7 +102,11 @@ function App() {
         />
       </main>
 
-      <LedgerPanel txHistory={txHistory} shortAddress={shortAddress} />
+      <LedgerPanel
+        txHistory={txHistory}
+        shortAddress={shortAddress}
+        // onClearHistory={clearHistory}
+      />
       <AppFooter />
     </div>
   );

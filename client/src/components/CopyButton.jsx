@@ -41,7 +41,7 @@ function CopyButton({ value, variant = "text", size = "tiny" }) {
 
   return (
     <button
-      className={className}
+      className={`${className}${copied ? " ghost-button--copied" : ""}`}
       type="button"
       aria-label="Copy"
       onClick={handleCopy}

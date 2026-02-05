@@ -1,4 +1,4 @@
-function LedgerPanel({ txHistory, shortAddress }) {
+function LedgerPanel({ txHistory, shortAddress, onClearHistory }) {
   return (
     <section className="panel ledger-panel">
       <div className="panel__header">
@@ -6,7 +6,16 @@ function LedgerPanel({ txHistory, shortAddress }) {
           <p className="panel__eyebrow">Activity</p>
           <h2>Transaction Stream</h2>
         </div>
-        <div className="panel__badge">Live</div>
+        <div className="ledger__actions">
+          {/* <button
+            className="ghost-button ghost-button--tiny"
+            type="button"
+            onClick={onClearHistory}
+          >
+            Clear history
+          </button> */}
+          <div className="panel__badge">Live</div>
+        </div>
       </div>
       <div className="ledger">
         {txHistory.length === 0 ? (
