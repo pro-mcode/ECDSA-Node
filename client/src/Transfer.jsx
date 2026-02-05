@@ -14,17 +14,19 @@ function Transfer({
 }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
+  const [error, setError] = useState("");
 
   const setValue = (setter) => (evt) => setter(evt.target.value);
 
   async function transfer(evt) {
     evt.preventDefault();
+    setError("");
 
     // Basic validations
-    if (!privateKey) return alert("Private key is missing!");
-    if (!recipient) return alert("Recipient address is missing!");
+    if (!privateKey) return setError("Private key is missing.");
+    if (!recipient) return setError("Recipient address is missing.");
     const amount = parseInt(sendAmount);
-    if (!amount || amount <= 0) return alert("Invalid amount!");
+    if (!amount || amount <= 0) return setError("Enter a valid amount.");
 
     // Build transaction object
     const transaction = { recipient, amount, nonce };
@@ -63,7 +65,7 @@ function Transfer({
       setSendAmount("");
       setRecipient("");
     } catch (err) {
-      alert(err.response?.data?.message || err.message);
+      setError(err.response?.data?.message || err.message);
     }
   }
 
@@ -108,6 +110,8 @@ function Transfer({
             onChange={setValue(setRecipient)}
           />
         </label>
+
+        {error ? <div className="form-error">{error}</div> : null}
 
         <button className="button" type="submit">
           Transfer

@@ -360,6 +360,15 @@ input:focus {
   gap: 12px;
 }
 
+.form-error {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 70, 140, 0.12);
+  border: 1px solid rgba(255, 70, 140, 0.45);
+  color: #ff8bc1;
+  font-size: 0.85rem;
+}
+
 .button {
   margin-top: 8px;
   background: linear-gradient(120deg, rgba(108, 246, 255, 0.9), rgba(140, 123, 255, 0.9));
