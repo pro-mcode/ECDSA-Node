@@ -13,6 +13,7 @@ function Wallet({
   setPrivateKey,
 }) {
   const [sampleKeys, setSampleKeys] = useState([]);
+  const [showKeys, setShowKeys] = useState(false);
   const copyToClipboard = async (value) => {
     if (!value) return;
     try {
@@ -87,7 +88,9 @@ function Wallet({
           <p className="panel__eyebrow">Wallet Access</p>
           <h2>Your Vault</h2>
         </div>
-        <div className="panel__badge">secp256k1</div>
+        <div className="panel__badge panel__badge--warning">
+          Demo keys (server-generated)
+        </div>
       </div>
 
       <label className="field">
@@ -131,36 +134,51 @@ function Wallet({
       </div>
 
       <div className="panel__section">
-        <p className="panel__section-title">Sample Private Keys</p>
-        <div className="key-list">
-          {sampleKeys.length === 0 ? (
-            <div className="key-item">Server keys unavailable.</div>
-          ) : (
-            sampleKeys.map((key) => (
-              <div key={key} className="key-item">
-                {key}
-                <button
-                  className="ghost-button ghost-button--icon"
-                  type="button"
-                  aria-label="Copy sample key"
-                  onClick={() => copyToClipboard(key)}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    role="img"
-                    aria-hidden="true"
-                    className="icon"
-                  >
-                    <path
-                      d="M9 9h10v10H9zM6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1h-2V5H5v8h1v2z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </button>
-              </div>
-            ))
-          )}
+        <div className="panel__section-row">
+          <p className="panel__section-title">Sample Private Keys</p>
+          <button
+            className="ghost-button ghost-button--tiny"
+            type="button"
+            onClick={() => setShowKeys((prev) => !prev)}
+          >
+            {showKeys ? "Hide keys" : "Reveal keys"}
+          </button>
         </div>
+        {showKeys ? (
+          <div className="key-list">
+            {sampleKeys.length === 0 ? (
+              <div className="key-item">Server keys unavailable.</div>
+            ) : (
+              sampleKeys.map((key) => (
+                <div key={key} className="key-item">
+                  {key}
+                  <button
+                    className="ghost-button ghost-button--icon"
+                    type="button"
+                    aria-label="Copy sample key"
+                    onClick={() => copyToClipboard(key)}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      role="img"
+                      aria-hidden="true"
+                      className="icon"
+                    >
+                      <path
+                        d="M9 9h10v10H9zM6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1h-2V5H5v8h1v2z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        ) : (
+          <div className="key-list key-list--hidden">
+            <div className="key-item">Keys hidden.</div>
+          </div>
+        )}
       </div>
     </section>
   );

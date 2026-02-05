@@ -59,6 +59,7 @@ function Transfer({
         recipient,
         amount,
         nonce,
+        sender: address,
       });
 
       // Clear input

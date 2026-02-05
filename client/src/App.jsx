@@ -4,6 +4,32 @@ import "./App.scss";
 import { useState, useEffect } from "react";
 import server from "./server";
 
+const shortAddress = (value) => {
+  if (!value) return "—";
+  if (value.length <= 12) return value;
+  return `${value.slice(0, 6)}…${value.slice(-4)}`;
+};
+
+const loadHistory = (address) => {
+  if (!address) return [];
+  try {
+    const raw = localStorage.getItem(`txHistory:${address}`);
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (err) {
+    return [];
+  }
+};
+
+const saveHistory = (address, entries) => {
+  if (!address) return;
+  try {
+    localStorage.setItem(`txHistory:${address}`, JSON.stringify(entries));
+  } catch (err) {
+    // Ignore storage failures
+  }
+};
+
 function App() {
   const [balance, setBalance] = useState(0);
   const [address, setAddress] = useState("");
@@ -27,6 +53,14 @@ function App() {
 
     fetchNonce();
   }, [address]);
+
+  useEffect(() => {
+    setTxHistory(loadHistory(address));
+  }, [address]);
+
+  useEffect(() => {
+    saveHistory(address, txHistory);
+  }, [address, txHistory]);
 
   return (
     <div className="app-shell">
@@ -106,6 +140,12 @@ function App() {
                   <p className="ledger__label">Recipient</p>
                   <p className="ledger__value ledger__value--mono">
                     {tx.recipient}
+                  </p>
+                </div>
+                <div>
+                  <p className="ledger__label">Sender</p>
+                  <p className="ledger__value ledger__value--mono">
+                    {shortAddress(tx.sender)}
                   </p>
                 </div>
                 <div>

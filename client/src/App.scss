@@ -22,7 +22,11 @@
 body {
   margin: 0;
   font-family: "Sora", sans-serif;
-  background: radial-gradient(1200px 600px at 10% 10%, #1e1a52 0%, transparent 60%),
+  background: radial-gradient(
+      1200px 600px at 10% 10%,
+      #1e1a52 0%,
+      transparent 60%
+    ),
     radial-gradient(900px 500px at 90% 0%, #08384a 0%, transparent 55%),
     linear-gradient(135deg, var(--bg), var(--bg-2));
   color: var(--text);
@@ -34,8 +38,16 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: radial-gradient(40% 30% at 50% 0%, rgba(140, 123, 255, 0.3), transparent 70%),
-    radial-gradient(30% 20% at 80% 20%, rgba(108, 246, 255, 0.25), transparent 70%);
+  background: radial-gradient(
+      40% 30% at 50% 0%,
+      rgba(140, 123, 255, 0.3),
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 20% at 80% 20%,
+      rgba(108, 246, 255, 0.25),
+      transparent 70%
+    );
   pointer-events: none;
   z-index: -1;
 }
@@ -68,7 +80,11 @@ body::before {
   height: 380px;
   left: -120px;
   top: 20%;
-  background: radial-gradient(circle at 30% 30%, rgba(108, 246, 255, 0.7), transparent 70%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(108, 246, 255, 0.7),
+    transparent 70%
+  );
 }
 
 .bg-orb--two {
@@ -76,7 +92,11 @@ body::before {
   height: 460px;
   right: -160px;
   top: 0;
-  background: radial-gradient(circle at 40% 40%, rgba(140, 123, 255, 0.7), transparent 70%);
+  background: radial-gradient(
+    circle at 40% 40%,
+    rgba(140, 123, 255, 0.7),
+    transparent 70%
+  );
   animation-delay: -6s;
 }
 
@@ -85,7 +105,11 @@ body::before {
   height: 300px;
   right: 10%;
   bottom: -80px;
-  background: radial-gradient(circle at 30% 30%, rgba(76, 255, 172, 0.6), transparent 70%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(76, 255, 172, 0.6),
+    transparent 70%
+  );
   animation-delay: -12s;
 }
 
@@ -107,8 +131,15 @@ body::before {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: conic-gradient(from 180deg, var(--neon), var(--neon-2), var(--neon-3), var(--neon));
-  box-shadow: 0 0 22px rgba(108, 246, 255, 0.5), 0 0 50px rgba(140, 123, 255, 0.45);
+  background: conic-gradient(
+    from 180deg,
+    var(--neon),
+    var(--neon-2),
+    var(--neon-3),
+    var(--neon)
+  );
+  box-shadow: 0 0 22px rgba(108, 246, 255, 0.5),
+    0 0 50px rgba(140, 123, 255, 0.45);
   position: relative;
 }
 
@@ -189,7 +220,11 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(108, 246, 255, 0.15), transparent 40%);
+  background: linear-gradient(
+    120deg,
+    rgba(108, 246, 255, 0.15),
+    transparent 40%
+  );
   pointer-events: none;
 }
 
@@ -223,6 +258,13 @@ body::before {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   border: 1px solid rgba(108, 246, 255, 0.35);
+}
+
+.panel__badge--warning {
+  background: rgba(255, 176, 87, 0.15);
+  border-color: rgba(255, 176, 87, 0.5);
+  color: #ffcf9a;
+  font-size: 0.7rem;
 }
 
 .field {
@@ -300,6 +342,13 @@ input:focus {
   margin-top: 26px;
 }
 
+.panel__section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .panel__section-title {
   margin: 0 0 12px;
   color: var(--muted);
@@ -314,6 +363,10 @@ input:focus {
   font-family: "Space Grotesk", monospace;
   font-size: 0.85rem;
   color: rgba(230, 236, 255, 0.75);
+}
+
+.key-list--hidden {
+  opacity: 0.6;
 }
 
 .key-item {
@@ -371,7 +424,11 @@ input:focus {
 
 .button {
   margin-top: 8px;
-  background: linear-gradient(120deg, rgba(108, 246, 255, 0.9), rgba(140, 123, 255, 0.9));
+  background: linear-gradient(
+    120deg,
+    rgba(108, 246, 255, 0.9),
+    rgba(140, 123, 255, 0.9)
+  );
   border: none;
   border-radius: 16px;
   padding: 14px 18px;
@@ -395,6 +452,7 @@ input:focus {
   border: 1px solid rgba(108, 246, 255, 0.35);
   color: var(--neon);
   padding: 10px 14px;
+  margin-bottom: 12px;
   border-radius: 12px;
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -437,7 +495,7 @@ input:focus {
 
 .ledger__row {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) 1fr 1fr;
+  grid-template-columns: minmax(0, 2fr) 1fr 1fr 1fr;
   gap: 16px;
   align-items: center;
   padding: 14px 16px;
