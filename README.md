@@ -62,7 +62,7 @@ This project is an example of using a client and server to facilitate transfers 
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone (https://github.com/pro-mcode/ECDSA-Node.git)
 cd ecdsa-node-main
 ```
 
