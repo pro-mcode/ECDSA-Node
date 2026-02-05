@@ -422,6 +422,15 @@ input:focus {
   font-size: 0.85rem;
 }
 
+.form-success {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(76, 255, 172, 0.12);
+  border: 1px solid rgba(76, 255, 172, 0.45);
+  color: #9dffd1;
+  font-size: 0.85rem;
+}
+
 .button {
   margin-top: 8px;
   background: linear-gradient(

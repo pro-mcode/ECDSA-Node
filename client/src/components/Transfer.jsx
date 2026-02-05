@@ -1,26 +1,21 @@
 import { useState } from "react";
-import server from "./server";
+import server from "../server";
 import * as secp from "ethereum-cryptography/secp256k1";
 import { keccak256 } from "ethereum-cryptography/keccak";
 import { toHex, utf8ToBytes, hexToBytes } from "ethereum-cryptography/utils";
 
-function Transfer({
-  address,
-  setBalance,
-  privateKey,
-  nonce,
-  incrementNonce,
-  onTransfer,
-}) {
+function Transfer({ address, setBalance, privateKey, nonce, incrementNonce, onTransfer }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const setValue = (setter) => (evt) => setter(evt.target.value);
 
   async function transfer(evt) {
     evt.preventDefault();
     setError("");
+    setSuccess("");
 
     // Basic validations
     if (!privateKey) return setError("Private key is missing.");
@@ -61,6 +56,9 @@ function Transfer({
         nonce,
         sender: address,
       });
+
+      setSuccess("Transfer confirmed.");
+      setTimeout(() => setSuccess(""), 3000);
 
       // Clear input
       setSendAmount("");
@@ -113,6 +111,7 @@ function Transfer({
         </label>
 
         {error ? <div className="form-error">{error}</div> : null}
+        {success ? <div className="form-success">{success}</div> : null}
 
         <button className="button" type="submit">
           Transfer

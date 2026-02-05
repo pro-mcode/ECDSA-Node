@@ -1,8 +1,12 @@
-import Wallet from "./Wallet";
-import Transfer from "./Transfer";
-import "./App.scss";
 import { useState, useEffect } from "react";
+import "./App.scss";
 import server from "./server";
+import Wallet from "./components/Wallet";
+import Transfer from "./components/Transfer";
+import AppHeader from "./components/AppHeader";
+import AppFooter from "./components/AppFooter";
+import LedgerPanel from "./components/LedgerPanel";
+import BgOrbs from "./components/BgOrbs";
 
 const shortAddress = (value) => {
   if (!value) return "—";
@@ -64,35 +68,8 @@ function App() {
 
   return (
     <div className="app-shell">
-      <div className="bg-orbs" aria-hidden="true">
-        <span className="bg-orb bg-orb--one" />
-        <span className="bg-orb bg-orb--two" />
-        <span className="bg-orb bg-orb--three" />
-      </div>
-      <header className="app-header">
-        <div className="brand">
-          <div className="brand__orb" aria-hidden="true" />
-          <div className="brand__copy">
-            <p className="brand__eyebrow">ECDSA NEON LEDGER</p>
-            <h1>Quantum Wallet</h1>
-            <p className="brand__sub">
-              Sign, verify, and move value through a glassmorphic ledger.
-            </p>
-          </div>
-        </div>
-        <div className="status-card">
-          <div>
-            <p className="status-card__label">Network</p>
-            <p className="status-card__value">Testnet: ECDSA Local</p>
-          </div>
-          <div>
-            <p className="status-card__label">Nonce</p>
-            <p className="status-card__value">
-              {address ? nonceMap[address] || 0 : "—"}
-            </p>
-          </div>
-        </div>
-      </header>
+      <BgOrbs />
+      <AppHeader nonce={address ? nonceMap[address] || 0 : "—"} />
 
       <main className="app-grid">
         <Wallet
@@ -120,58 +97,8 @@ function App() {
         />
       </main>
 
-      <section className="panel ledger-panel">
-        <div className="panel__header">
-          <div>
-            <p className="panel__eyebrow">Activity</p>
-            <h2>Transaction Stream</h2>
-          </div>
-          <div className="panel__badge">Live</div>
-        </div>
-        <div className="ledger">
-          {txHistory.length === 0 ? (
-            <p className="ledger__empty">
-              No transactions yet. Send a transfer to light up the stream.
-            </p>
-          ) : (
-            txHistory.map((tx) => (
-              <div key={tx.id} className="ledger__row">
-                <div>
-                  <p className="ledger__label">Recipient</p>
-                  <p className="ledger__value ledger__value--mono">
-                    {tx.recipient}
-                  </p>
-                </div>
-                <div>
-                  <p className="ledger__label">Sender</p>
-                  <p className="ledger__value ledger__value--mono">
-                    {shortAddress(tx.sender)}
-                  </p>
-                </div>
-                <div>
-                  <p className="ledger__label">Amount</p>
-                  <p className="ledger__value">{tx.amount}</p>
-                </div>
-                <div>
-                  <p className="ledger__label">Nonce</p>
-                  <p className="ledger__value">{tx.nonce}</p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </section>
-
-      <section className="app-footer">
-        <div>
-          <p className="app-footer__title">Zero-trust demo</p>
-          <p className="app-footer__sub">
-            Local keys only. Transactions are signed client-side and verified on
-            the server.
-          </p>
-        </div>
-        <div className="app-footer__pill">Glass + Neon UI v2</div>
-      </section>
+      <LedgerPanel txHistory={txHistory} shortAddress={shortAddress} />
+      <AppFooter />
     </div>
   );
 }

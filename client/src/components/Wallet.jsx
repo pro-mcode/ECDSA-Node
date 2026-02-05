@@ -1,8 +1,10 @@
-import server from "./server";
+import server from "../server";
 import * as secp from "ethereum-cryptography/secp256k1";
 import { keccak256 } from "ethereum-cryptography/keccak";
 import { toHex } from "ethereum-cryptography/utils";
 import { useEffect, useState } from "react";
+import CopyButton from "./CopyButton";
+import { toChecksumAddress } from "../utils/address";
 
 function Wallet({
   address,
@@ -14,14 +16,7 @@ function Wallet({
 }) {
   const [sampleKeys, setSampleKeys] = useState([]);
   const [showKeys, setShowKeys] = useState(false);
-  const copyToClipboard = async (value) => {
-    if (!value) return;
-    try {
-      await navigator.clipboard.writeText(value);
-    } catch (err) {
-      // Ignore if clipboard unavailable
-    }
-  };
+  const [showToast, setShowToast] = useState(false);
 
   function getAddress(publicKey) {
     const slicedKey = publicKey.slice(1); // remove format byte
@@ -39,8 +34,8 @@ function Wallet({
     const publicKey = secp.getPublicKey(nextPrivateKey);
     let nextAddress = getAddress(publicKey);
 
-    // Normalize to lowercase to match server
-    nextAddress = nextAddress.toLowerCase();
+    // Normalize to checksum format
+    nextAddress = toChecksumAddress(nextAddress);
     setAddress(nextAddress);
 
     if (nextAddress) {
@@ -81,6 +76,13 @@ function Wallet({
     fetchKeys();
   }, []);
 
+  useEffect(() => {
+    if (!showKeys) return;
+    setShowToast(true);
+    const timer = setTimeout(() => setShowToast(false), 1600);
+    return () => clearTimeout(timer);
+  }, [showKeys]);
+
   return (
     <section className="panel wallet-panel">
       <div className="panel__header">
@@ -101,13 +103,7 @@ function Wallet({
             value={privateKey}
             onChange={onChange}
           ></input>
-          <button
-            className="ghost-button"
-            type="button"
-            onClick={() => copyToClipboard(privateKey)}
-          >
-            Copy
-          </button>
+          <CopyButton value={privateKey} size="full" />
         </div>
       </label>
 
@@ -122,13 +118,7 @@ function Wallet({
             <p className="metric__value metric__value--mono">
               {address || "—"}
             </p>
-            <button
-              className="ghost-button ghost-button--tiny"
-              type="button"
-              onClick={() => copyToClipboard(address)}
-            >
-              Copy
-            </button>
+            <CopyButton value={address} size="tiny" />
           </div>
         </div>
       </div>
@@ -136,6 +126,9 @@ function Wallet({
       <div className="panel__section">
         <div className="panel__section-row">
           <p className="panel__section-title">Sample Private Keys</p>
+          {/* <span className="key-status">
+            {sampleKeys.length > 0 ? "Keys loaded" : "Loading keys"}
+          </span> */}
           <button
             className="ghost-button ghost-button--tiny"
             type="button"
@@ -144,6 +137,7 @@ function Wallet({
             {showKeys ? "Hide keys" : "Reveal keys"}
           </button>
         </div>
+        {/* {showToast ? <div className="toast">Keys revealed</div> : null} */}
         {showKeys ? (
           <div className="key-list">
             {sampleKeys.length === 0 ? (
@@ -152,24 +146,7 @@ function Wallet({
               sampleKeys.map((key) => (
                 <div key={key} className="key-item">
                   {key}
-                  <button
-                    className="ghost-button ghost-button--icon"
-                    type="button"
-                    aria-label="Copy sample key"
-                    onClick={() => copyToClipboard(key)}
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      role="img"
-                      aria-hidden="true"
-                      className="icon"
-                    >
-                      <path
-                        d="M9 9h10v10H9zM6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1h-2V5H5v8h1v2z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </button>
+                  <CopyButton value={key} variant="icon" />
                 </div>
               ))
             )}
