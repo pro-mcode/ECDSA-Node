@@ -7,9 +7,7 @@ import server from "./server";
 function App() {
   const [balance, setBalance] = useState(0);
   const [address, setAddress] = useState("");
-  const [privateKey, setPrivateKey] = useState(
-    "125b88e4ad3db01bd00c8bd5d8002ee2f7ab11f0fadd5aef9fd38841d86abdde"
-  );
+  const [privateKey, setPrivateKey] = useState("");
   const [nonceMap, setNonceMap] = useState({}); // client-side nonce tracking
   const [txHistory, setTxHistory] = useState([]);
 

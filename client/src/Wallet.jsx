@@ -2,7 +2,7 @@ import server from "./server";
 import * as secp from "ethereum-cryptography/secp256k1";
 import { keccak256 } from "ethereum-cryptography/keccak";
 import { toHex } from "ethereum-cryptography/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Wallet({
   address,
@@ -12,6 +12,7 @@ function Wallet({
   privateKey,
   setPrivateKey,
 }) {
+  const [sampleKeys, setSampleKeys] = useState([]);
   const copyToClipboard = async (value) => {
     if (!value) return;
     try {
@@ -60,6 +61,24 @@ function Wallet({
   useEffect(() => {
     syncWallet(privateKey);
   }, [privateKey]);
+
+  useEffect(() => {
+    async function fetchKeys() {
+      try {
+        const { data } = await server.get("/keys");
+        if (Array.isArray(data.privateKeys)) {
+          setSampleKeys(data.privateKeys);
+          if (!privateKey && data.privateKeys.length > 0) {
+            setPrivateKey(data.privateKeys[0]);
+          }
+        }
+      } catch (err) {
+        // If the endpoint isn't available, keep existing defaults
+      }
+    }
+
+    fetchKeys();
+  }, []);
 
   return (
     <section className="panel wallet-panel">
@@ -114,81 +133,33 @@ function Wallet({
       <div className="panel__section">
         <p className="panel__section-title">Sample Private Keys</p>
         <div className="key-list">
-          <div className="key-item">
-            125b88e4ad3db01bd00c8bd5d8002ee2f7ab11f0fadd5aef9fd38841d86abdde
-            <button
-              className="ghost-button ghost-button--icon"
-              type="button"
-              aria-label="Copy sample key"
-              onClick={() =>
-                copyToClipboard(
-                  "125b88e4ad3db01bd00c8bd5d8002ee2f7ab11f0fadd5aef9fd38841d86abdde"
-                )
-              }
-            >
-              <svg
-                viewBox="0 0 24 24"
-                role="img"
-                aria-hidden="true"
-                className="icon"
-              >
-                <path
-                  d="M9 9h10v10H9zM6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1h-2V5H5v8h1v2z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="key-item">
-            25163ad1efa2f4319197e447ed35f73379b870a667e7a408d16fe07fc0d41f08
-            <button
-              className="ghost-button ghost-button--icon"
-              type="button"
-              aria-label="Copy sample key"
-              onClick={() =>
-                copyToClipboard(
-                  "25163ad1efa2f4319197e447ed35f73379b870a667e7a408d16fe07fc0d41f08"
-                )
-              }
-            >
-              <svg
-                viewBox="0 0 24 24"
-                role="img"
-                aria-hidden="true"
-                className="icon"
-              >
-                <path
-                  d="M9 9h10v10H9zM6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1h-2V5H5v8h1v2z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="key-item">
-            1916707701a7ed3f9c7e8d9e069e3ebfed57a71f89c4f64517e9c236cc7717c0
-            <button
-              className="ghost-button ghost-button--icon"
-              type="button"
-              aria-label="Copy sample key"
-              onClick={() =>
-                copyToClipboard(
-                  "1916707701a7ed3f9c7e8d9e069e3ebfed57a71f89c4f64517e9c236cc7717c0"
-                )
-              }
-            >
-              <svg
-                viewBox="0 0 24 24"
-                role="img"
-                aria-hidden="true"
-                className="icon"
-              >
-                <path
-                  d="M9 9h10v10H9zM6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1h-2V5H5v8h1v2z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-          </div>
+          {sampleKeys.length === 0 ? (
+            <div className="key-item">Server keys unavailable.</div>
+          ) : (
+            sampleKeys.map((key) => (
+              <div key={key} className="key-item">
+                {key}
+                <button
+                  className="ghost-button ghost-button--icon"
+                  type="button"
+                  aria-label="Copy sample key"
+                  onClick={() => copyToClipboard(key)}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    role="img"
+                    aria-hidden="true"
+                    className="icon"
+                  >
+                    <path
+                      d="M9 9h10v10H9zM6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1h-2V5H5v8h1v2z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>

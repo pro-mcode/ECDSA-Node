@@ -45,6 +45,10 @@ app.get("/nonce/:address", (req, res) => {
   res.send({ nonce: nonces[address] });
 });
 
+app.get("/keys", (req, res) => {
+  res.send({ privateKeys });
+});
+
 // Send transaction endpoint
 app.post("/send", (req, res) => {
   const { transaction, signature, recoveryBit } = req.body;
